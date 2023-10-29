@@ -11,6 +11,8 @@ import './index.css'
 import Header from './components/Header';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
+import Home from './pages/Home';
+import PrivateRoute from './components/privateRoute';
 
 function App() {
 
@@ -20,9 +22,14 @@ function App() {
    <Router>
     <Header />
    <Routes>  
-                 <Route exact path='/profile' element={< Profile/>}></Route>  
+                <Route exact path='/' element={< Home/>}></Route> 
+                
                  <Route exact path= 'sign-up' element= { <Signup /> }></Route>
+
                  <Route exact path= 'sign-in' element= { <Signin /> }></Route>
+                 <Route element={< PrivateRoute />} >
+                 <Route exact path='/profile' element={< Profile/>}></Route>  
+                 </Route>
           </Routes>  
 
    </Router>

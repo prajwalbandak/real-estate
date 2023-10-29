@@ -36,7 +36,28 @@ export const signIn = async(req, res, next) =>{
     console.log(rest);
     res.cookie("access token", token, {httponly:true}).status(200).json({rest});
 
-
 }
 
+export const goggle = async(req, res, next) =>{
+    try{
+        const validUser = await User.findOne({email:req.body.email});
+    if(validUser){
+        const token = Jwt.sign({id:validUser._id}, process.env.SECRET);
+        const { pass:password, ...rest} = validUser._id;
+        res.cookie("access token" , token, { httponly:true}).status(200).json({rest});
 
+    }else{
+        const generatePassword = Math.random().toString(36).slice(-8);
+        const hashedPassword = bcrypt.hashSync(generatePassword, 10);
+        const newUser = new User({username:req.body.username, email:req.body.email, password:hashedPassword});
+        await newUser.save();
+        const token = Jwt.sign({id:newUser._id}, process.env.SECRET);
+        const { pass:password, ...rest} = newUser._id;
+        res.cookie("access token" , token, { httponly:true}).status(200).json({rest});
+
+    }
+        
+    }catch(error){
+        console.log(error);
+    }
+}
