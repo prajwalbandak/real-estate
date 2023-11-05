@@ -5,6 +5,7 @@ import { MongoClient, ServerApiVersion }  from 'mongodb';
 //import userRouter from "../routes/user.route.js";
 import userRouter from "./routes/user.route.js"; 
 import authRouter from './routes/auth.route.js'
+import cookieParser from 'cookie-parser'
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ mongoose.connect(process.env.MONGO,
   
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 console.log(process.env.MONGO)
 
 app.listen(3000, ()=>{

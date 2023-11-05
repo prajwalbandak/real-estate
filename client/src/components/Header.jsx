@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 const Header = () => {
   const { currentUser} = useSelector(state=> state.user);
-  console.log(currentUser);
+  console.log("CurrentUser " + currentUser);
  // console.log(currentUser.rest.avatar)
   return (
     <header className='bg-slate-200 shadow-md'>
