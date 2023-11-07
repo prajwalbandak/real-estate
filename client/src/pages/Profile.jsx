@@ -8,6 +8,9 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { app } from '../../firebase';
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+
 
 const Profile = () => {
   //const currentUser = useSelector((state) => state.user);
@@ -21,6 +24,7 @@ const Profile = () => {
   const [userListings, setUserListings] = useState([]);
   const fileref = useRef(null);
   //console.log(currentUser);
+  const dispatch = useDispatch();
 
   console.log("form data " + formData);
   console.log("file percentage "  + filePerc);
@@ -56,6 +60,24 @@ const Profile = () => {
       );
     };
 
+    const handleSubmit = async(e) =>{
+
+      e.preventDefault();
+      try{
+        
+      }catch(error){
+        dispatch(updateUserFailure(error));
+      }
+      const response = await fetch("/api/user/update/:id",{
+
+      })
+      
+    }
+    const handleChange = (e) =>{
+      setFormData({...formData, [e.target.id] : e.target.value});
+
+    }
+
 
   
   return (
@@ -71,13 +93,20 @@ const Profile = () => {
               onClick= {() => {fileref.current.click() }}
               className='h-24 w-24  cursor-pointer rounded-full self-center object-cover'src={currentUser.rest.avatar} alt='profile' />
           </form>
-        <input type='text' placeholder='userName' id='username'
+        <input type='text' onChange= { handleChange } placeholder='userName' id='username'
         className='rounded-lg p-3 border gap-2'></input> 
       
 
-        <input type='text' placeholder='email' id='email' className='rounded-lg p-3 border gap-2'></input> 
-        <input type='password' placeholder='password' id='password' className='rounded-lg p-3 border gap-2'></input> 
-        <button className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-90 disabled:opacity-70 p-3' >update</button>
+        <input type='text' onChange= { handleChange }  placeholder='email' id='email' className='rounded-lg p-3 border gap-2'></input> 
+        <input type='password' onChange= { handleChange }  placeholder='password' id='password' className='rounded-lg p-3 border gap-2'></input> 
+        <button 
+          onSubmit={handleSubmit}
+        className='bg-slate-700
+         text-white rounded-lg uppercase 
+         hover:opacity-90 
+         disabled:opacity-70 p-3' 
+         >       update
+         </button>
       </form>
       <div className='text-red-700 justify-between flex mt-3'>
       <span>delete account</span>
