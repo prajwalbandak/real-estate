@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 const Header = () => {
   const { currentUser} = useSelector(state=> state.user);
-  console.log("CurrentUser " + currentUser.username);
+  //console.log("CurrentUser " + currentUser.username);
   // console.log(currentUser.data.avatar)
   // console.log(currentUser.data.username)
   return (
@@ -33,7 +33,7 @@ const Header = () => {
                 <Link to='/profile'>
                 {
                   
-                  currentUser ? (<img className='items-center justify-center h-7 w-7 rouded-full object-cover'width="50" height="60" src="../public/profile.jpg" alt="profile" /> ):
+                  currentUser ? (<img className='items-center justify-center h-7 w-7 rounded-full object-cover'width="50" height="60" src="../public/profile.jpg" alt="profile" /> ):
                   (
                   <li 
                   className='sm:inline text-slate-700 hover:underline cursor-pointer'>

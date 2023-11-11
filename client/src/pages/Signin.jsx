@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signInstart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import OAuth from '../components/OAuth';
 
+
 const Signin = () => {
   const[formData, setFormData] = useState({});
+  const[failureMessage, setFailureMessage ] = useState("");
   // const[error, setError ] = useState('');
   // const[loading, setLoading] = useState(false);
   const { loading, error} = useSelector((state) => state.user);
+  //const failureMessage = "";
 const navigate = useNavigate(); 
 const dispatch = useDispatch();
   const handleChange = (e) =>{
@@ -30,11 +33,15 @@ const dispatch = useDispatch();
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-  
+      console.log("the message"  + data.message);
+      console.log("error", error);
       if(data.success == false){
         // setError(data.message);
         // setLoading(false);
+        setFailureMessage(data.message);
         dispatch(signInFailure(data.message));
+        
+        //navigate('/sign-up')
         return;
       }
       dispatch(signInSuccess(data));
@@ -61,9 +68,14 @@ const dispatch = useDispatch();
          text-white rounded-lg
          
         hover:opacity-95 disabled:opacity-80'>
-            {loading ? 'loading...' : 'Sign up'}
+            {loading ? 'loading...' : 'Sign In'}
           
           </button>
+          
+          {failureMessage && <h2 className='text-red-500'>{failureMessage}</h2>}
+        {error && <h2 className='text-red-500'>{error}</h2>}
+        
+          
           <OAuth/>
       </form>
       <div className='flex gap-2 p-2' >
