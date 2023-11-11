@@ -53,7 +53,7 @@ const dispatch = useDispatch();
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-xl text-center font-serif py-7'>Sign-In</h1>
-      <form onSubmit= { handleSubmit }className='flex flex-col gap-4'> 
+      <form onSubmit= { handleSubmit } className='flex flex-col gap-4'> 
         
         <input type='text' placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>
         <input type='text' placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>

@@ -1,11 +1,12 @@
 import React from 'react'
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 const Header = () => {
   const { currentUser} = useSelector(state=> state.user);
-  console.log("CurrentUser " + currentUser);
- // console.log(currentUser.rest.avatar)
+  console.log("CurrentUser " + currentUser.username);
+  // console.log(currentUser.data.avatar)
+  // console.log(currentUser.data.username)
   return (
     <header className='bg-slate-200 shadow-md'>
       <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
@@ -32,7 +33,7 @@ const Header = () => {
                 <Link to='/profile'>
                 {
                   
-                  currentUser ? (<img className='items-center justify-center h-7 w-7 rouded-full object-cover'width="50" height="60" src={currentUser.rest.avatar} alt="profile" /> ):
+                  currentUser ? (<img className='items-center justify-center h-7 w-7 rouded-full object-cover'width="50" height="60" src="../public/profile.jpg" alt="profile" /> ):
                   (
                   <li 
                   className='sm:inline text-slate-700 hover:underline cursor-pointer'>

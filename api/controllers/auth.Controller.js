@@ -34,7 +34,8 @@ export const signIn = async(req, res, next) =>{
     console.log(validUser);
     const { password : pass, ...rest} = validUser._doc; 
     console.log(rest);
-    res.cookie("access token", token, {httponly:true}).status(200).json({rest});
+    res.cookie("access_token", token, { httpOnly: true }).status(200).json({ data: rest });
+
 
 }
 
@@ -44,7 +45,8 @@ export const goggle = async(req, res, next) =>{
     if(validUser){
         const token = Jwt.sign({id:validUser._id}, process.env.SECRET);
         const { pass:password, ...rest} = validUser._id;
-        res.cookie("access token" , token, { httponly:true}).status(200).json({rest});
+        res.cookie("access_token", token, { httpOnly: true }).status(200).json({ data: rest });
+
 
     }else{
         const generatePassword = Math.random().toString(36).slice(-8);
@@ -53,7 +55,8 @@ export const goggle = async(req, res, next) =>{
         await newUser.save();
         const token = Jwt.sign({id:newUser._id}, process.env.SECRET);
         const { pass:password, ...rest} = newUser._id;
-        res.cookie("access token" , token, { httponly:true}).status(200).json({rest});
+        res.cookie("access_token", token, { httpOnly: true }).status(200).json({ data: rest });
+
 
     }
         
