@@ -13,6 +13,7 @@ import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Home from './pages/Home';
 import PrivateRoute from './components/privateRoute';
+import CreateListing from './pages/CreateListing';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
                  <Route exact path= 'sign-in' element= { <Signin /> }></Route>
                  <Route element={< PrivateRoute />} >
                  <Route exact path='/profile' element={< Profile/>}></Route>  
+                 <Route exact path = 'create-listing' element= {<CreateListing />} ></Route>
                  </Route>
           </Routes>  
 
