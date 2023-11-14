@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const CreateListing = () => {
+  const[files, setFiles ] = useState([]);
+
+  const[formData, setFormData] = useState({
+    imageUrls:[],
+
+  });
+
+
+
+
+  
+  
+  console.log("files" + files);
   return (
     <main className='max-w-4xl p-3 mx-auto'>
       <h1 className='text-3xl text-center bg-transparent font-semibold my-6'> Create Listing</h1>
@@ -94,13 +107,20 @@ const CreateListing = () => {
               <span className='ml-2 text-center'>The first image will be the cover max(6) </span>
             </div>
             <div className='flex gap-4'>
-              <input type='file' id='images' accept='/images/*' multiple />
-              <button type="button" className="text-white bg-blue-700
+              <input onChange={(e) => setFiles(e.target.files)} type='file' id='images' accept='/images/*' multiple />
+              <button type="button"  className="text-white bg-blue-700
                hover:bg-blue-800 focus:outline-none focus:ring-4
                 focus:ring-blue-300 font-medium rounded-full text-center cursor-pointer
                 text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">UPLOAD</button>
+
+
+
+
+
+
+
             </div>
-            <button type="button" className="text-white bg-gradient-to-r
+            <button   className="text-white bg-gradient-to-r
            from-purple-500 via-purple-600 to-purple-700 
            hover:bg-gradient-to-br 
            focus:ring-4 focus:outline-none focus:ring-purple-300
