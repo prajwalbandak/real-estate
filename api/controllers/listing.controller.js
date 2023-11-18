@@ -4,6 +4,7 @@ import Mongoose  from "mongoose";
 import Images from "../models/image.model.js";
 import fs from 'fs';
 import path from 'path';
+import errorHandler from "../utils/error.js";
 
 export const createListing = async(req, res, next) =>{
     console.log("request data" + JSON.stringify(req.body));
@@ -91,4 +92,17 @@ export const imageUpload = async (req, res, next) => {
     }
     
 
+  }
+
+  export const getUserListing = async(req, res, next) =>{
+    if(req.user.id !== req.params.id) {
+        return errorHandler(401, "you are unauhtorized");
+    }
+    try{
+        const listings = await Listing.find({userRef: req.params.id});
+        res.status(200).json(listings);
+
+    }catch(error){
+        next(error);
+    }
   }
