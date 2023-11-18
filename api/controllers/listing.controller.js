@@ -106,3 +106,26 @@ export const imageUpload = async (req, res, next) => {
       return next(errorHandler(401, 'You can only view your own listings!'));
     }
   };
+
+
+  export const deleteUserListings = async(req, res, next) =>{
+    const listing = await Listing.findById(req.params.id);
+    console.log("listing" + listing);
+   // console.log("listing ref" + listing.userRef.toString());
+    if(!Listing){
+      return next(errorHandler(401, "Listing not found"));
+  }
+  if(req.params.id !== listing.userRef){
+    return next(errorHandler(401,"you can delete your own listings"))
+  }
+    try{
+      const deletListing = await Listing.findByIdAndDelete(req.params.id);
+      res.status(200).json("You have deleted the listings")
+
+
+
+
+    }catch(error){
+      next(error);
+    }
+  }
