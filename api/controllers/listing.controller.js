@@ -115,9 +115,9 @@ export const imageUpload = async (req, res, next) => {
     if(!Listing){
       return next(errorHandler(401, "Listing not found"));
   }
-  if(req.params.id !== listing.userRef){
-    return next(errorHandler(401,"you can delete your own listings"))
-  }
+  // if(req.params.id !== listing.userRef){
+  //   return next(errorHandler(401,"you can delete your own listings"))
+  // }
     try{
       const deletListing = await Listing.findByIdAndDelete(req.params.id);
       res.status(200).json("You have deleted the listings")

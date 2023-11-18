@@ -147,7 +147,25 @@ const Profile = () => {
       }
     }
 
+    const handleListingDelete = async(listingId) =>{
+      try{
+          const deletedList = await fetch(`/api/deleteListing/${listingId}`,{
+            method:'DELETE',
 
+          }
+          )
+          const data = await deletedList.json();
+          if(data.success === false){
+            console.log(data.message);
+            return;
+          }
+
+          setUserListings((prev) => prev.filter((listing) => listing._id !== listingId))
+
+      }catch(error){
+       console.log(error.message);
+      }
+}
   
   return (
 
