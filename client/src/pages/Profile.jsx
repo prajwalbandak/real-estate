@@ -15,6 +15,7 @@ const Profile = () => {
   //const currentUser = useSelector((state) => state.user);
   const { currentUser,loading, error } = useSelector(state=> state.user);
   const [file, setFile] = useState(undefined);
+  const fileRef = useRef(null);
   const [ formData, setFormData] = useState({});
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
@@ -22,43 +23,40 @@ const Profile = () => {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   console.log("current User", currentUser);
-  console.log("curr", currentUser._id);
-  
-  const fileref = useRef(null);
-  
+  console.log("curr", currentUser.data._id)
+  //console.log("the user listing " + userListings[0]._id);
   const dispatch = useDispatch();
 
 
-  useEffect (() =>{
-    
-    if(file){
-      hanadleFileUpload(file);
+  useEffect(() => {
+    if (file) {
+      handleFileUpload(file);
     }
-  },[file])
+  }, [file]);
 
-  // const hanadleFileUpload = (file) => {
-  //   const storage = getStorage(app);
-  //   const fileName = new Date().getTime() + file.name;
-  //   const StorageRef = ref(storage, fileName);
-  //   const uploadTask = uploadBytesResumable(StorageRef, file);
-  
-  //     uploadTask.on(
-  //       'state_changed',
-  //       (snapshot) => {
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         setFilePerc(Math.round(progress));
-  //       },
-  //       (error) => {
-  //         setFileUploadError(true);
-  //       },
-  //       () => {
-  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
-  //           setFormData({ ...formData, avatar: downloadURL })
-  //         );
-  //       }
-  //     );
-  //   };
+  const handleFileUpload = (file) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setFilePerc(Math.round(progress));
+      },
+      (error) => {
+        setFileUploadError(true);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, avatar: downloadURL })
+        );
+      }
+    );
+  };
 
     const handleSubmit = async(e) =>{
       console.log("formData ", formData);
@@ -132,6 +130,23 @@ const Profile = () => {
 
     }
 
+    const handleUserListing = async(e) =>{
+      try{
+          setShowListingsError(false);
+          const res = await fetch(`/api/listings/${currentUser.data._id}`);
+          const data = await res.json();
+          if(data.success  === false){
+            setShowListingsError(true)
+            return;
+          }
+          
+          setUserListings(data);
+
+      }catch(error){
+        setShowListingsError(true);
+      }
+    }
+
 
   
   return (
@@ -139,15 +154,32 @@ const Profile = () => {
     <div className='p-3 max-w-lg mx-auto gap-4'>
       <h1 className='text-3xl text-center py-7 font-semibold '> Profile</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-3'> 
-      
-      <input  ref={fileref} onChange= {(e) => setFile(e.target.files[0])} type="file" hidden accept='images/*'></input>
-      
-       
-             <img 
-              onClick= {() => {fileref.current.click() }}
-              className='h-24 w-24  cursor-pointer rounded-full self-center object-cover'
-              src='/profile.jpg' 
-              alt='profile' />
+      <input
+          onChange={(e) => setFile(e.target.files[0])}
+          type='file'
+          ref={fileRef}
+          hidden
+          accept='image/*'
+        />
+      <img
+          onClick={() => fileRef.current.click()}
+          src={formData.avatar || currentUser.avatar}
+          alt='profile'
+          className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
+        />
+        <p className='text-sm self-center'>
+          {fileUploadError ? (
+            <span className='text-red-700'>
+              Error Image upload (image must be less than 2 mb)
+            </span>
+          ) : filePerc > 0 && filePerc < 100 ? (
+            <span className='text-slate-700'>{`Uploading ${filePerc}%`}</span>
+          ) : filePerc === 100 ? (
+            <span className='text-green-700'>Image successfully uploaded!</span>
+          ) : (
+            ''
+          )}
+        </p>
 
 
 
@@ -192,6 +224,52 @@ const Profile = () => {
       <p className='text-red-700 mt-4'>{error ? error :"" }</p>
      
       <p className='text-blue-700 mt-4'>{updateSuccess ? "you have updated the user details successfully" :"" }</p>
+   
+    <button  onClick={handleUserListing } className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95'>SHOW LISTING</button>
+        
+    <p className='text-red-700 mt-5'>
+        {showListingsError ? 'Error showing listings' : ''}
+      </p>
+
+      {userListings && userListings.length > 0 && (
+        <div className='flex flex-col gap-4'>
+          <h1 className='text-center mt-7 text-2xl font-semibold'>
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className='border rounded-lg p-3 flex justify-between items-center gap-4'
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt='listing cover'
+                  className='h-16 w-16 object-contain'
+                />
+              </Link>
+              <Link
+                className='text-slate-700 font-semibold  hover:underline truncate flex-1'
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+
+              <div className='flex flex-col item-center'>
+                <button
+                  onClick={() => handleListingDelete(listing._id)}
+                  className='text-red-700 uppercase'
+                >
+                  Delete
+                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className='text-green-700 uppercase'>Edit</button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

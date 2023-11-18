@@ -33,7 +33,7 @@ app.listen(3000, ()=>{
 
 app.use('/api/user',userRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/listing', listRouter);
+app.use('/api', listRouter);
 
 app.use((error, req, res, next)  => {
   const statusCode = error.statusCode || 500;
