@@ -14,6 +14,7 @@ import Signin from './pages/Signin';
 import Home from './pages/Home';
 import PrivateRoute from './components/privateRoute';
 import CreateListing from './pages/CreateListing';
+import UpdateListing from './pages/UpdateListing';
 
 function App() {
 
@@ -30,7 +31,11 @@ function App() {
                  <Route exact path= 'sign-in' element= { <Signin /> }></Route>
                  <Route element={< PrivateRoute />} >
                  <Route exact path='/profile' element={< Profile/>}></Route>  
-                 <Route exact path = 'create-listing' element= {<CreateListing />} ></Route>
+                 <Route exact path = '/create-listing' element= {<CreateListing />} ></Route>
+                 <Route
+            path='/update-listing/:listingId'
+            element={<UpdateListing />}
+          />
                  </Route>
           </Routes>  
 
