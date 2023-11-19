@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs'
 import errorHandler from "../utils/error.js";
 import Jwt from "jsonwebtoken";
 
-
 export const signUp = async(req, res,next) =>{
     try{
         console.log(req.body);
@@ -18,9 +17,7 @@ export const signUp = async(req, res,next) =>{
         //errorHandler(500, "internal server error");
        next(error);
     }
-  
 }
-
 export const signIn = async(req, res, next) =>{
     console.log(req.body);
     const { email, password} = req.body;
@@ -35,8 +32,6 @@ export const signIn = async(req, res, next) =>{
     const { password : pass, ...rest} = validUser._doc; 
     console.log(rest);
     res.cookie("access_token", token, { httpOnly: true }).status(200).json({ data: rest });
-
-
 }
 
 export const goggle = async(req, res, next) =>{
