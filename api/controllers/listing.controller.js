@@ -5,6 +5,7 @@ import Images from "../models/image.model.js";
 import fs from 'fs';
 import path from 'path';
 import errorHandler from "../utils/error.js";
+import User from "../models/User.model.js"
 
 export const createListing = async(req, res, next) =>{
     console.log("request data" + JSON.stringify(req.body));
@@ -164,4 +165,26 @@ export const imageUpload = async (req, res, next) => {
     }catch(error){
       next(error);
     }
+  }
+
+
+  export const   getUser = async(req, res, next) =>{
+
+    try{
+      const user = await User.findById(req.params.id);
+      if(!user) {
+        return next(errorHandler(401, "User not found"))
+      }
+
+      const {password : pass, ...rest } = user._doc;
+
+      res.status(200).json(rest);
+
+
+
+
+    }catch(error){
+      next(error);
+    }
+
   }
