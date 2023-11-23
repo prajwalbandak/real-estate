@@ -188,3 +188,12 @@ export const imageUpload = async (req, res, next) => {
     }
 
   }
+
+
+  export const getListings = (req, res, next) =>{
+    try{
+
+    }catch(error){
+      next(error)
+    }
+  }
