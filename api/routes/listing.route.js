@@ -8,6 +8,7 @@ import { upload } from '../controllers/listing.controller.js';
 
 const router = express.Router();
 
+router.get('/getListingData', getListings);
 router.post('/listing/create',createListing);
 router.get('/listings/:id',  verifyToken, getUserListings); // this API, will show according to profile section in the "SHOW LISTING" tab
 router.delete('/deleteListing/:id',verifyToken,deleteUserListings);
@@ -17,7 +18,7 @@ router.get('/getListingForUser/:id', getListingforEdit) //This API, when you'r c
 
 router.get('/:id', verifyToken, getUser)  // get the user for particular listing.
 
-router.get('/get', getListings);
+
 
 
 router.post('/imageUpload', upload.array('photos', 6), imageUpload)
