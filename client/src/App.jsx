@@ -35,11 +35,15 @@ function App() {
                  <Route exact path = '/search' element= {<Search/>} ></Route>
                  <Route exact path = '/about' element= {<About/>} ></Route>
                  <Route exact path= '/listing/:listingId' element= { <Listing/> }></Route>
-                 <Route element={<PrivateRoute />}>
-  <Route exact path='/profile' element={<Profile />} />
-  <Route exact path='/create-listing' element={<CreateListing />} />
-  <Route path='/update-listing/:listingId' element={<UpdateListing />} />
-</Route>
+                
+                  <Route element={<PrivateRoute />}>
+                      <Route path='/profile' element={<Profile />} />
+                      <Route path='/create-listing' element={<CreateListing />} />
+                      <Route
+                        path='/update-listing/:listingId'
+                        element={<UpdateListing />}
+                      />
+        </Route>
 
                  {/* <Route element={< PrivateRoute />} >
                  <Route exact path='/profile' element={< Profile/>}></Route>  
