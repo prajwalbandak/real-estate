@@ -12,7 +12,7 @@ import Header from './components/Header';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Home from './pages/Home';
-import PrivateRoute from './components/privateRoute';
+import PrivateRoute from './components/PrivateRoute';
 import CreateListing from './pages/CreateListing';
 import UpdateListing from './pages/UpdateListing';
 import Listing from './pages/Listing';
