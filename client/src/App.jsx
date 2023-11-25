@@ -16,6 +16,8 @@ import PrivateRoute from './components/privateRoute';
 import CreateListing from './pages/CreateListing';
 import UpdateListing from './pages/UpdateListing';
 import Listing from './pages/Listing';
+import Search from './pages/Search';
+import About from './pages/About';
 
 function App() {
 
@@ -30,6 +32,8 @@ function App() {
                  <Route exact path= '/sign-up' element= { <Signup /> }></Route>
 
                  <Route exact path= '/sign-in' element= { <Signin /> }></Route>
+                 <Route exact path = '/search' element= {<Search/>} ></Route>
+                 <Route exact path = '/about' element= {<About/>} ></Route>
                  <Route exact path= '/listing/:listingId' element= { <Listing/> }></Route>
                  <Route element={< PrivateRoute />} >
                  <Route exact path='/profile' element={< Profile/>}></Route>  
