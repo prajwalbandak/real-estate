@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon api/index.js",
-    "start": "node api/index.js"
+    "start": "node api/index.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "mongodb": "^6.2.0",
     "mongoose": "^5.13.7",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7"
   }
 }
