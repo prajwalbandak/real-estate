@@ -9,6 +9,13 @@ import { updateUserStart,
      deleteUserSuccess, 
      deleteUserFailure } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { app } from '../../firebase';
 
 
 const Profile = () => {
@@ -22,8 +29,8 @@ const Profile = () => {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
-  console.log("current User", currentUser);
-  console.log("curr", currentUser.data._id)
+  //console.log("current User", currentUser);
+  //console.log("curr", currentUser.data._id)
   //console.log("the user listing " + userListings[0]._id);
   const dispatch = useDispatch();
 
@@ -46,6 +53,7 @@ const Profile = () => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilePerc(Math.round(progress));
+        console.log("progres" + progress);
       },
       (error) => {
         setFileUploadError(true);
@@ -64,7 +72,7 @@ const Profile = () => {
       e.preventDefault();
       try{
         dispatch(updateUserStart())
-        const response = await fetch(`/api/user/update/${currentUser._id}`,{
+        const response = await fetch(`/api/user/update/${currentUser.data._id}`,{
           method:'POST',
           headers:{
             'Content-Type':'application/json',
