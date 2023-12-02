@@ -25,7 +25,8 @@ const Listing = () => {
     const params  = useParams();
     SwiperCore.use([Navigation]);
     const { currentUser } = useSelector(state=> state.user);
-
+    console.log("ID" + currentUser._id);
+    //console.log("currest id" + currentUser.data._id);
     console.log("Current user" + currentUser.data);
     console.log("lustubg" + JSON.stringify(listing));
 useEffect(() =>{
@@ -140,7 +141,7 @@ useEffect(() =>{
               </li>
             </ul>
 
-            {currentUser && listing.userRef !== currentUser.data._id && !contact &&  (
+            {currentUser && listing.userRef !== currentUser._id && !contact &&  (
                      <button
                      onClick={() => setContact(true)}
                      className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
